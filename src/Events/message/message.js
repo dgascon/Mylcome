@@ -5,11 +5,18 @@ module.exports = class extends Event {
 	async run(message) {
 			const mentionRegex = RegExp(`^<@!${this.client.user.id}>$`);
 			const mentionRegexPrefix = RegExp(`^<@!${this.client.user.id}> `);
+			let data = this.client.utils.getDataByGuild(message);
+			let prefix = this.client.prefix;
+			if (data)
+				prefix = data["prefix"];
+
 			if (!message.guild || message.author.bot) return;
 
-			if (message.content.match(mentionRegex)) message.channel.send(`My prefix for **${message.guild.name}** is \`${this.client.prefix}\`.`);
+			if (message.content.match(mentionRegex))
+				message.channel.send(`My prefix for **${message.guild.name}** is \`${prefix}\`.`);
 
-			const prefix = message.content.match(mentionRegexPrefix) ? message.content.match(mentionRegexPrefix)[0] : this.client.prefix;
+			if (message.content.match(mentionRegexPrefix))
+				prefix = message.content.match(mentionRegexPrefix)[0];
 
 			if (!message.content.startsWith(prefix)) return;
 

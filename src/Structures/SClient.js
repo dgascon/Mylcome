@@ -19,6 +19,8 @@ module.exports = class SClient extends Client {
 		this.events = new Collection();
 
 		this.utils = new Util(this);
+
+		this.config = './guilds_config.json';
 	}
 
 	/**
