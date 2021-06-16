@@ -7,9 +7,10 @@ module.exports = class extends Event {
 			const mentionRegexPrefix = RegExp(`^<@!${this.client.user.id}> `);
 			let data = this.client.utils.getDataByGuild(message);
 			let prefix = this.client.prefix;
-			if (data)
-				prefix = data["prefix"];
-
+			if (data) {
+				if (data["prefix"] !== undefined)
+					prefix = data["prefix"];
+			}
 			if (!message.guild || message.author.bot) return;
 
 			if (message.content.match(mentionRegex))
