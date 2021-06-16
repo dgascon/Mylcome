@@ -5,7 +5,8 @@ module.exports = class extends Command {
 	constructor(...args) {
 		super(...args, {
 			aliases: ['sname'],
-			description: 'This definie the name of canal',
+			description: 'This define the name of canal ({user} = username)',
+			usage: 'sname [name_of_canal]',
 			category: 'Configurations'
 		});
 	}

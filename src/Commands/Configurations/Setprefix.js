@@ -5,7 +5,8 @@ module.exports = class extends Command {
 	constructor(...args) {
 		super(...args, {
 			aliases: ['sprefix'],
-			description: 'This definie the prefix for the guild',
+			description: 'This define the prefix for the guild',
+			usage: 'sprefix [new_prefix]',
 			category: 'Configurations'
 		});
 	}
