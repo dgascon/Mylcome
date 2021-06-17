@@ -18,7 +18,7 @@ module.exports = class extends Command {
 			return;
 		}
 
-		this.client.utils.updateDataByGuild(message, "category", args[0]);
+		this.client.jsonUtils.updateDataByGuild(message, "category", args[0]);
 		message.reply(`The category is now <#${args[0]}>`).then(r => r.delete({timeout: this.client.delete_time}));
 	}
 }

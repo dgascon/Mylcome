@@ -3,7 +3,6 @@ const { promisify } = require('util');
 const glob = promisify(require('glob'));
 const Command = require('./Command.js');
 const Event = require('./Event.js');
-const fs = require('fs');
 
 /**
  * Function util for the bot
@@ -25,52 +24,22 @@ module.exports = class Util {
 			&& input.toString().substring(0, 5) === 'class';
 	}
 
-	/**
-	 * Read and parse guild_config file
-	 * @returns Object JSON
-	 */
-	getReadParseConf() {
-		try {
-			return JSON.parse(fs.readFileSync(this.client.config, 'utf-8'));
-		} catch (e) {
-			fs.writeFileSync(this.client.config, JSON.stringify([]), 'utf-8');
-			return JSON.parse(fs.readFileSync(this.client.config, 'utf-8'));
-		}
-	}
-
-	getDataByGuild(message) {
-		let fileConf = this.getReadParseConf();
-
-		try {
-			for (let i = 0; i < fileConf.length; i++) {
-				if (fileConf[i].guild_id !== message.guild.id)
-					continue;
-				return fileConf[i];
-			}
-		} catch (e) {
-			return false;
-		}
-	}
-
-	updateDataByGuild(message, nameData, valueData)
-	{
-		let dataFile = this.client.utils.getReadParseConf();
-		let isExist = false;
-
-		for (let i = 0; i < dataFile.length; i++) {
-			if (dataFile[i].guild_id !== message.guild.id)
-				continue;
-			dataFile[i][nameData] = valueData;
-			isExist = true;
-		}
-
-		if (!isExist)
-			dataFile.push({"guild_id": message.guild.id, [nameData]: valueData});
-		fs.writeFileSync(this.client.config, JSON.stringify(dataFile), "utf-8");
-	}
-
 	removeDuplicates(arr) {
 		return [...new Set(arr)];
+	}
+
+	/**
+	 * Replace variable in text
+	 * @param member
+	 * @param text
+	 * @returns {*}
+	 */
+	parsedTextByVariable(member, text)
+	{
+		let tx;
+		tx = text.replace(/{user}/g, member.user.username);
+		tx = tx.replace(/{usertag}/g, `<@${member.user.id}>`);
+		return tx;
 	}
 
 	/**

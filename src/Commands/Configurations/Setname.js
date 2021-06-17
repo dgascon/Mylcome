@@ -19,7 +19,7 @@ module.exports = class extends Command {
 			message.reply(`The name of canal must contains between 1 and 100 character !`).then(r => r.delete({timeout: this.client.delete_time}));
 			return;
 		}
-		this.client.utils.updateDataByGuild(message, "name", args.join(' '));
+		this.client.jsonUtils.updateDataByGuild(message, "name", args.join(' '));
 		message.reply(`The name of canal is now \`${args.join(' ')}\``).then(r => r.delete({timeout: this.client.delete_time}));
 	}
 }

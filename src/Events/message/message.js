@@ -5,7 +5,7 @@ module.exports = class extends Event {
 	async run(message) {
 			const mentionRegex = RegExp(`^<@!${this.client.user.id}>$`);
 			const mentionRegexPrefix = RegExp(`^<@!${this.client.user.id}> `);
-			let data = this.client.utils.getDataByGuild(message);
+			let data = this.client.jsonUtils.updateDataByGuild(message);
 			let prefix = this.client.prefix;
 			if (data) {
 				if (data["prefix"] !== undefined)

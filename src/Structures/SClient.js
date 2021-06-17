@@ -1,5 +1,6 @@
 const { Client, Collection } = require('discord.js')
 const Util = require('./Util.js');
+const JsonUtils = require('./JsonUtils.js');
 
 /**
  * Personnal client based on Client of DiscordJS
@@ -19,6 +20,8 @@ module.exports = class SClient extends Client {
 		this.events = new Collection();
 
 		this.utils = new Util(this);
+
+		this.jsonUtils = new JsonUtils(this);
 
 		this.config = './guilds_config.json';
 	}

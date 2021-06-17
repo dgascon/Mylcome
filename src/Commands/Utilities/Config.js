@@ -12,7 +12,7 @@ module.exports = class extends Command {
 	}
 
 	async run(message) {
-		let data = this.client.utils.getDataByGuild(message);
+		let data = this.client.jsonUtils.getDataByGuild(message);
 
 		const embed = new MessageEmbed()
 		embed.setColor('#0099ff')
