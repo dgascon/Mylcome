@@ -71,8 +71,10 @@ module.exports = class JsonUtils
 	{
 		let dataFile = this.getDataByGuild(id);
 
-		if (dataFile[nameData] !== undefined)
+		try {
 			return dataFile[nameData];
-		return false;
+		} catch (e) {
+			return false;
+		}
 	}
 }
