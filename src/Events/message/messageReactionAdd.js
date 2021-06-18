@@ -33,7 +33,7 @@ module.exports = class extends Event {
 				{
 					if (emoji === react[key][0]) {
 						if (react[key][1] === "close") {
-							this.client.channels.cache.get(message.channel.id).delete("Finished");
+							await this.client.channels.cache.get(message.channel.id).delete("Finished");
 							return;
 						}
 						else
@@ -41,6 +41,13 @@ module.exports = class extends Event {
 					}
 				}
 
+				let rroles = this.client.jsonUtils.getKeyByGuild(message.guild.id, "removeroles");
+				if (rroles)
+				{
+					for (let i = 0; i < rroles.length; i++) {
+						await user.roles.remove(rroles[i]);
+					}
+				}
 				await this.client.channels.cache.get(message.channel.id).delete("Finished");
 			}
 		}
