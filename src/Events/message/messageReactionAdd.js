@@ -32,26 +32,23 @@ module.exports = class extends Event {
 				for (var key in react)
 				{
 					if (emoji === react[key][0]) {
-						if (react[key][1] === "close") {
-							await this.client.channels.cache.get(message.channel.id).delete("Finished");
-							return;
-						}
-						else {
-							for (let i = 1; i < react[key].length; i++) {
-								await user.roles.add(react[key][i]);
+						for (let i = 1; i < react[key].length; i++) {
+							if (react[key][i] === "close") {
+								let rroles = this.client.jsonUtils.getKeyByGuild(message.guild.id, "removeroles");
+								if (rroles)
+								{
+									for (let i = 0; i < rroles.length; i++) {
+										await user.roles.remove(rroles[i]);
+									}
+								}
+								await this.client.channels.cache.get(message.channel.id).delete("Finished");
+								return;
 							}
+							else
+								await user.roles.add(react[key][i]);
 						}
 					}
 				}
-
-				let rroles = this.client.jsonUtils.getKeyByGuild(message.guild.id, "removeroles");
-				if (rroles)
-				{
-					for (let i = 0; i < rroles.length; i++) {
-						await user.roles.remove(rroles[i]);
-					}
-				}
-				await this.client.channels.cache.get(message.channel.id).delete("Finished");
 			}
 		}
 	}
