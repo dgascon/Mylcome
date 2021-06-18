@@ -36,8 +36,11 @@ module.exports = class extends Event {
 							await this.client.channels.cache.get(message.channel.id).delete("Finished");
 							return;
 						}
-						else
-							await user.roles.add(react[key][1]);
+						else {
+							for (let i = 1; i < react[key].length; i++) {
+								await user.roles.add(react[key][i]);
+							}
+						}
 					}
 				}
 
