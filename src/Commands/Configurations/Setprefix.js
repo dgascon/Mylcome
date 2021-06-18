@@ -12,7 +12,7 @@ module.exports = class extends Command {
 	}
 
 	async run(message, args) {
-		this.client.jsonUtils.updateDataByGuild(message, "prefix", args[0]);
+		this.client.jsonUtils.updateDataByGuild(message.guild.id, "prefix", args[0]);
 		message.reply(`Your prefix is now \`${args[0]}\``).then(r => r.delete({timeout: this.client.delete_time}));
 	}
 }

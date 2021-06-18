@@ -21,7 +21,7 @@ module.exports = class extends Command {
 			}
 		})
 
-		this.client.jsonUtils.updateDataByGuild(message, "autoroles", roles);
+		this.client.jsonUtils.updateDataByGuild(message.guild.id, "autoroles", roles);
 		let text = '';
 		roles.forEach(r => {
 			text += `<@&${r}> `;

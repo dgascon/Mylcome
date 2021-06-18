@@ -21,15 +21,15 @@ module.exports = class JsonUtils
 
 	/**
 	 * Get data by Guild
-	 * @param message
+	 * @param id
 	 * @returns {boolean|*} false if doesn't exist or data.
 	 */
-	getDataByGuild(message) {
+	getDataByGuild(id) {
 		let fileConf = this.getReadParseConf();
 
 		try {
 			for (let i = 0; i < fileConf.length; i++) {
-				if (fileConf[i].guild_id !== message.guild.id)
+				if (fileConf[i].guild_id !== id)
 					continue;
 				return fileConf[i];
 			}
@@ -40,36 +40,36 @@ module.exports = class JsonUtils
 
 	/**
 	 * Update data by guild
-	 * @param message
+	 * @param id
 	 * @param nameData Key
 	 * @param valueData Value
 	 */
-	updateDataByGuild(message, nameData, valueData)
+	updateDataByGuild(id, nameData, valueData)
 	{
 		let dataFile = this.getReadParseConf();
 		let isExist = false;
 
 		for (let i = 0; i < dataFile.length; i++) {
-			if (dataFile[i].guild_id !== message.guild.id)
+			if (dataFile[i].guild_id !== id)
 				continue;
 			dataFile[i][nameData] = valueData;
 			isExist = true;
 		}
 
 		if (!isExist)
-			dataFile.push({"guild_id": message.guild.id, [nameData]: valueData});
+			dataFile.push({"guild_id": id, [nameData]: valueData});
 		fs.writeFileSync(this.client.config, JSON.stringify(dataFile), "utf-8");
 	}
 
 	/**
 	 * Get value by key on guild
-	 * @param message
+	 * @param id
 	 * @param nameData key
 	 * @returns {boolean|*} false if doesn't exist
 	 */
-	getKeyByGuild(message, nameData)
+	getKeyByGuild(id, nameData)
 	{
-		let dataFile = this.getDataByGuild(message);
+		let dataFile = this.getDataByGuild(id);
 
 		if (dataFile[nameData] !== undefined)
 			return dataFile[nameData];

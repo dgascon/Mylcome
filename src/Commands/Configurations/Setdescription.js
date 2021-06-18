@@ -12,7 +12,14 @@ module.exports = class extends Command {
 	}
 
 	async run(message, args) {
-		this.client.jsonUtils.updateDataByGuild(message, "descriptions", args.join(' '));
+		args = args.join(' ');
+
+		if (args.length >= 1900) {
+			args = args.substr(0, 1897);
+			args = args + "...";
+		}
+
+		this.client.jsonUtils.updateDataByGuild(message.guild.id, "descriptions", args);
 		message.reply(`The text of canal is now \`${args.join(' ')}\``).then(r => r.delete({timeout: this.client.delete_time}));
 	}
 }
