@@ -11,7 +11,9 @@ module.exports = class extends Event {
 				if (data["prefix"] !== undefined)
 					prefix = data["prefix"];
 			}
-			if (!message.guild || message.author.bot) return;
+			message.delete({timeout: this.client.delete_time});
+
+			if (!message.guild || message.author.bot || !message.member.hasPermission("ADMINISTRATOR")) return;
 
 			if (message.content.match(mentionRegex))
 				message.channel.send(`My prefix for **${message.guild.name}** is \`${prefix}\`.`);
@@ -24,8 +26,6 @@ module.exports = class extends Event {
 			const [cmd, ...args] = message.content.slice(prefix.length).trim().split(/ +/g);
 
 			const command = this.client.commands.get(cmd.toLowerCase()) || this.client.commands.get(this.client.aliases.get(cmd.toLowerCase()));
-
-			message.delete({timeout: this.client.delete_time});
 
 			if (command) {
 				command.run(message, args);
