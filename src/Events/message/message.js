@@ -11,9 +11,7 @@ module.exports = class extends Event {
 				if (data["prefix"] !== undefined)
 					prefix = data["prefix"];
 			}
-			message.delete({timeout: this.client.delete_time});
-
-			if (!message.guild || message.author.bot || !message.member.hasPermission("ADMINISTRATOR")) return;
+			if (!message.guild || message.author.bot) return;
 
 			if (message.content.match(mentionRegex))
 				message.channel.send(`My prefix for **${message.guild.name}** is \`${prefix}\`.`);
@@ -26,6 +24,14 @@ module.exports = class extends Event {
 			const [cmd, ...args] = message.content.slice(prefix.length).trim().split(/ +/g);
 
 			const command = this.client.commands.get(cmd.toLowerCase()) || this.client.commands.get(this.client.aliases.get(cmd.toLowerCase()));
+
+			message.delete({timeout: this.client.delete_time});
+
+			if (!message.member.hasPermission("ADMINISTRATOR"))
+			{
+				message.reply(`You have not permission.`).then(r => r.delete({timeout: this.client.delete_time}));
+				return;
+			}
 
 			if (command) {
 				command.run(message, args);
