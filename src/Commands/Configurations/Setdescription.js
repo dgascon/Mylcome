@@ -20,6 +20,6 @@ module.exports = class extends Command {
 		}
 
 		this.client.jsonUtils.updateDataByGuild(message.guild.id, "descriptions", args);
-		message.reply(`The text of canal is now \`${args.join(' ')}\``).then(r => r.delete({timeout: this.client.delete_time}));
+		message.reply(`The text of canal is now \`${args}\``).then(r => r.delete({timeout: this.client.delete_time}));
 	}
 }
