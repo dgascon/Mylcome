@@ -35,7 +35,7 @@ module.exports = class extends Event {
 								}
 							}
 						})
-				})
+				}, 1500)
 			})
 			.catch(console.error);
 	}
