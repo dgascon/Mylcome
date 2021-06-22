@@ -62,6 +62,23 @@ module.exports = class JsonUtils
 	}
 
 	/**
+	 * Delete data by guild
+	 * @param id
+	 */
+	deleteDataByGuild(id)
+	{
+		let dataFile = this.getReadParseConf();
+		let newData = [];
+
+		for (let i = 0; i < dataFile.length; i++) {
+			if (dataFile[i].guild_id !== id)
+				newData.push(dataFile[i]);
+		}
+
+		fs.writeFileSync(this.client.config, JSON.stringify(newData), "utf-8");
+	}
+
+	/**
 	 * Get value by key on guild
 	 * @param id
 	 * @param nameData key
