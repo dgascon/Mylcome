@@ -12,13 +12,14 @@ module.exports = class extends Command {
 	}
 
 	async run(message, args) {
-		let flag = true;
-		let arg = args[0].toLowerCase();
-
 		if (args.length !== 1) {
 			message.reply(`Bad argument`).then(r => r.delete({timeout: this.client.delete_time}));
 			return;
 		}
+
+		let flag = true;
+		let arg = args[0].toLowerCase();
+
 		if (arg === "true" || arg === "1")
 			flag = true;
 		else if (arg === "false" || arg === "0")
