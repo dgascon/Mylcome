@@ -9,7 +9,8 @@ const JsonUtils = require('./JsonUtils.js');
 module.exports = class SClient extends Client {
 	constructor(options = {}) {
 		super({
-			disableMentions: 'everyone'
+			disableMentions: 'everyone',
+			partials: ["REACTION", "MESSAGE", "USER"]
 		});
 		this.validate(options);
 

@@ -3,6 +3,13 @@ const Event = require('../../Structures/Event.js');
 module.exports = class extends Event {
 
 	async run(messageReaction, user) {
+		if (messageReaction.partial) {
+			try {
+				await messageReaction.fetch();
+			} catch (error) {
+				return;
+			}
+		}
 		const message = messageReaction.message;
 		const member = message.guild.members.cache.get(user.id);
 		const emoji = messageReaction.emoji.name;
@@ -23,7 +30,6 @@ module.exports = class extends Event {
 			{
 				emojiReact.push(react[key][0]);
 			}
-
 			if (emojiReact.includes(emoji) && message.author.id == this.client.user.id)
 			{
 				const uidextract = message.content.match(RegExp(`<@[0-9]+>`))[0];
@@ -50,8 +56,10 @@ module.exports = class extends Event {
 							else {
 								if (user !== undefined)
 									await user.roles.add(react[key][i]);
-								else
-									message.channel.send('The user has left the server !').then(r => r.delete({timeout: this.client.delete_time}));
+								else {
+									message.channel.send('The user has left the server !');
+									return
+								}
 							}
 						}
 					}
