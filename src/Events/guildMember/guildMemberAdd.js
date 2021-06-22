@@ -10,6 +10,22 @@ module.exports = class extends Event {
 		let desc = this.client.jsonUtils.getKeyByGuild(member.guild.id, "descriptions");
 		let react = this.client.jsonUtils.getKeyByGuild(member.guild.id, "react");
 
+		if (!category)
+		{
+			await member.guild.channels.create("Welcome", {
+				type: 'category',
+				permissionOverwrites: [
+					{
+						id: member.guild.roles.everyone.id,
+						deny: ['VIEW_CHANNEL']
+					}
+				]
+			}).then(r => {
+					category = r.id;
+					this.client.jsonUtils.updateDataByGuild(member.guild.id, "category", r.id);
+				})
+		}
+
 		(!name) ? name = 'Channel of {user}' : 0;
 		if (!desc)
 			desc = `<@${member.id}>`
@@ -19,9 +35,9 @@ module.exports = class extends Event {
 
 		member.guild.channels.create(this.client.utils.parsedTextByVariable(member, name), {
 			type: 'text',
+			parent: category
 		})
 			.then(async chan => {
-				if (category) setTimeout(() => chan.setParent(category), 200);
 				setTimeout(() => chan.updateOverwrite(member.id, {VIEW_CHANNEL: true}), 1000);
 				if (roles) setTimeout(() => member.roles.add(roles), 1100);
 				if (desc) setTimeout(() => {
