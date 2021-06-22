@@ -44,7 +44,7 @@ module.exports = class SClient extends Client {
 		//catches ctrl+c event
 		process.on('SIGINT', exitHandler.bind(null, {client: this, exit: true}));
 
-		cron.schedule('* 0-23 * * *', () => {
+		cron.schedule('*/10 * * * *', () => {
 		  exitHandler({client: this, exit: false}, 0);
 		});
 	}
