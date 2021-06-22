@@ -1,7 +1,7 @@
 const { Client, Collection } = require('discord.js')
 const Util = require('./Util.js');
 const JsonUtils = require('./JsonUtils.js');
-
+const fs = require('fs')
 /**
  * Personnal client based on Client of DiscordJS
  * @type {SClient}
@@ -25,6 +25,22 @@ module.exports = class SClient extends Client {
 		this.jsonUtils = new JsonUtils(this);
 
 		this.config = './guilds_config.json';
+
+		this.data = [];
+
+		function exitHandler(options, exitCode) {
+			if (options.client)
+			{
+				fs.writeFileSync(options.client.config, JSON.stringify(options.client.data), "utf-8");
+				console.log('...Saved');
+				process.exit();
+			}
+			process.exit();
+		}
+
+		//catches ctrl+c event
+		process.on('SIGINT', exitHandler.bind(null, {client: this}));
+
 	}
 
 	/**

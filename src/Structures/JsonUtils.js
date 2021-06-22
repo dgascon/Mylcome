@@ -11,11 +11,16 @@ module.exports = class JsonUtils
 	 * @returns Object JSON
 	 */
 	getReadParseConf() {
+		let file;
 		try {
-			return JSON.parse(fs.readFileSync(this.client.config, 'utf-8'));
+			file = JSON.parse(fs.readFileSync(this.client.config, 'utf-8'));
 		} catch (e) {
 			fs.writeFileSync(this.client.config, JSON.stringify([]), 'utf-8');
-			return JSON.parse(fs.readFileSync(this.client.config, 'utf-8'));
+			file = JSON.parse(fs.readFileSync(this.client.config, 'utf-8'));
+		}
+
+		for (let i = 0; i < file.length; i++) {
+			this.client.data.push(file[i]);
 		}
 	}
 
@@ -25,13 +30,11 @@ module.exports = class JsonUtils
 	 * @returns {boolean|*} false if doesn't exist or data.
 	 */
 	getDataByGuild(id) {
-		let fileConf = this.getReadParseConf();
-
 		try {
-			for (let i = 0; i < fileConf.length; i++) {
-				if (fileConf[i].guild_id !== id)
+			for (let i = 0; i < this.client.data.length; i++) {
+				if (this.client.data[i].guild_id !== id)
 					continue;
-				return fileConf[i];
+				return this.client.data[i];
 			}
 		} catch (e) {
 			return false;
@@ -46,19 +49,15 @@ module.exports = class JsonUtils
 	 */
 	updateDataByGuild(id, nameData, valueData)
 	{
-		let dataFile = this.getReadParseConf();
-		let isExist = false;
+		let data = this.getDataByGuild(id);
 
-		for (let i = 0; i < dataFile.length; i++) {
-			if (dataFile[i].guild_id !== id)
-				continue;
-			dataFile[i][nameData] = valueData;
-			isExist = true;
+		if (data) {
+			data[nameData] = valueData;
+		}
+		else {
+			this.client.data.push({"guild_id": id, [nameData]: valueData});
 		}
 
-		if (!isExist)
-			dataFile.push({"guild_id": id, [nameData]: valueData});
-		fs.writeFileSync(this.client.config, JSON.stringify(dataFile), "utf-8");
 	}
 
 	/**
@@ -67,15 +66,14 @@ module.exports = class JsonUtils
 	 */
 	deleteDataByGuild(id)
 	{
-		let dataFile = this.getReadParseConf();
-		let newData = [];
+		let data = this.getDataByGuild(id);
 
-		for (let i = 0; i < dataFile.length; i++) {
-			if (dataFile[i].guild_id !== id)
-				newData.push(dataFile[i]);
+		if (data)
+		{
+			let index = this.client.data.indexOf(data);
+			this.client.data.splice(index, 1);
 		}
 
-		fs.writeFileSync(this.client.config, JSON.stringify(newData), "utf-8");
 	}
 
 	/**
@@ -86,10 +84,10 @@ module.exports = class JsonUtils
 	 */
 	getKeyByGuild(id, nameData)
 	{
-		let dataFile = this.getDataByGuild(id);
+		let data = this.getDataByGuild(id);
 
 		try {
-			return dataFile[nameData];
+			return data[nameData];
 		} catch (e) {
 			return false;
 		}
