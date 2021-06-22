@@ -1,7 +1,9 @@
 const { Client, Collection } = require('discord.js')
 const Util = require('./Util.js');
 const JsonUtils = require('./JsonUtils.js');
-const fs = require('fs')
+const fs = require('fs');
+const cron = require('node-cron');
+
 /**
  * Personnal client based on Client of DiscordJS
  * @type {SClient}
@@ -32,15 +34,19 @@ module.exports = class SClient extends Client {
 			if (options.client)
 			{
 				fs.writeFileSync(options.client.config, JSON.stringify(options.client.data), "utf-8");
-				console.log('...Saved');
-				process.exit();
+				let time = new Date();
+				console.log(`...Saved at ${time.getDate()}/${time.getMonth() + 1}/${time.getFullYear()} ${time.getHours()}:${time.getMinutes()}`);
 			}
-			process.exit();
+			if (options.exit)
+				process.exit();
 		}
 
 		//catches ctrl+c event
-		process.on('SIGINT', exitHandler.bind(null, {client: this}));
+		process.on('SIGINT', exitHandler.bind(null, {client: this, exit: true}));
 
+		cron.schedule('* 0-23 * * *', () => {
+		  exitHandler({client: this, exit: false}, 0);
+		});
 	}
 
 	/**
