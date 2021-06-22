@@ -1,15 +1,15 @@
 # Discord bot Mylcome
 
-Hi! I'm Gascon Dylan, young developers who study at 42 Lyon in France. I have develop this bot for my server, i hope you will enjoy !
+Hello, i'm Dylan Gascon, a young developer studying in Lyon a French city. i developed this bot for my server, i hope you will enjoy it.
 
 # Description
-This bot allow you of create a channel for every user which join your server. The settings contains :
+This bot allow you to create a channel for every user who join your server. The settings contains :
 * Name of channel
 * Prefix (default '__?__')
 * Message into the channel
-* Reaction at message
-* Category or to be yours channels
-* AutoRoles give roles when a user join the server
+* Reactions at the messages
+* Category of yours channels
+* AutoRoles gives roles when a user join the server
 * RemoveRoles removed roles when a member of staff click on a react who close the canal
 * Removeauto removed channel when a user left the server
 
