@@ -11,7 +11,7 @@ This bot allow you of create a channel for every user which join your server. Th
 * Category or to be yours channels
 * AutoRoles give roles when a user join the server
 * RemoveRoles removed roles when a member of staff click on a react who close the canal
-
+* Removeauto removed channel when a user left the server
 
 ## Commands
 
@@ -24,7 +24,7 @@ This bot allow you of create a channel for every user which join your server. Th
 |setreact|sreact|[emoji tagrole..]|*close (close the canal)*|Set the react of the message *(the separateur is commas and space [, ])*|`?sreact :smiling_imp: @role1, :pray: @role2 @role3 close, :cross: close`
 |setroles|sroles|[roles-tag]|*none*|Set roles who going to be add when a user join|`?sroles @role1 @role2 @role3`
 |setremoveroles|srroles|[roles-tag]|*none*|Set roles who going to be removed when the canal is closed|`?srroles @roles1`
-
+|setremoveauto|srauto|[true/false/1/0]|*none*|This define the remove automatic of channel when a user left a server|`?srauto true`
 
 ## Invitation
 
