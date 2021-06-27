@@ -12,6 +12,7 @@ This bot allow you to create a channel for every user who join your server. The 
 * AutoRoles gives roles when a user join the server
 * RemoveRoles removed roles when a member of staff click on a react who close the canal
 * Removeauto removed channel when a user left the server
+* Save logs in the channels
 
 ## Commands
 
@@ -25,7 +26,7 @@ This bot allow you to create a channel for every user who join your server. The 
 |setroles|sroles|[roles-tag]|*none*|Set roles who going to be add when a user join|`?sroles @role1 @role2 @role3`
 |setremoveroles|srroles|[roles-tag]|*none*|Set roles who going to be removed when the canal is closed|`?srroles @roles1`
 |setremoveauto|srauto|[true/false/1/0]|*none*|This define the remove automatic of channel when a user left a server|`?srauto true`
-
+|setsave|ssave|[integer]|*none*|Set the channel to save the logs|`?ssave 0123456789`
 ## Invitation
 
 https://discord.com/api/oauth2/authorize?client_id=847852979981254667&permissions=8&scope=bot

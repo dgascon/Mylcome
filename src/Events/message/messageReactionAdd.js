@@ -1,4 +1,5 @@
 const Event = require('../../Structures/Event.js');
+const hastebin = require("hastebin-gen");
 
 module.exports = class extends Event {
 
@@ -26,11 +27,11 @@ module.exports = class extends Event {
 
 		if (react)
 		{
-			for (var key in react)
+			for (var k in react)
 			{
-				emojiReact.push(react[key][0]);
+				emojiReact.push(react[k][0]);
 			}
-			if (emojiReact.includes(emoji) && message.author.id == this.client.user.id)
+			if (emojiReact.includes(emoji) && message.author.id === this.client.user.id)
 			{
 				const uidextract = message.content.match(RegExp(`<@[0-9]+>`))[0];
 				const uid = uidextract.substr(2, uidextract.length - 3);
@@ -50,7 +51,31 @@ module.exports = class extends Event {
 										}
 									}
 								}
-								await this.client.channels.cache.get(message.channel.id).delete("Finished");
+								let save = this.client.jsonUtils.getKeyByGuild(message.guild.id, "save");
+								if (save)
+									save = message.guild.channels.cache.get(save);
+								if (save !== undefined)
+								{
+									await message.channel.messages.fetch({limit: 100})
+										.then(msg => {
+											let log = "";
+											msg = msg.array().reverse();
+											for (let j = 0; j < msg.length; j++) {
+												log += `${msg[j].author.tag} ${msg[j].createdAt.toString()}\n--\n`;
+												log += `${msg[j].content}\n`
+												log += `---------------------------------------------------------------------------------------------------------------\n`
+											}
+
+											hastebin(log, {extension: "txt"}).then(haste => {
+												save.send(`Logs of ${message.channel.name} => ${haste}`).then(r => {
+													message.channel.delete("Finished");
+												})
+											}).catch(error => {
+												console.error(error);
+											});
+										})
+								} else
+									message.channel.delete("Finished");
 								return;
 							}
 							else {
