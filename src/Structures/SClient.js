@@ -28,7 +28,7 @@ module.exports = class SClient extends Client {
 
 		this.config = './guilds_config.json';
 
-		this.data = [];
+		this.data = this.jsonUtils.getReadParseConf();
 
 		function exitHandler(options, exitCode) {
 			if (options.client)
