@@ -19,9 +19,7 @@ module.exports = class JsonUtils
 			file = JSON.parse(fs.readFileSync(this.client.config, 'utf-8'));
 		}
 
-		for (let i = 0; i < file.length; i++) {
-			this.client.data.push(file[i]);
-		}
+		return file;
 	}
 
 	/**
