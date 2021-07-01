@@ -1,5 +1,5 @@
 const Event = require('../../Structures/Event.js');
-const hastebin = require("hastebin-gen");
+const fs = require('fs');
 
 module.exports = class extends Event {
 
@@ -66,12 +66,13 @@ module.exports = class extends Event {
 												log += `---------------------------------------------------------------------------------------------------------------\n`
 											}
 
-											hastebin(log, {extension: "txt"}).then(haste => {
-												save.send(`Logs of ${message.channel.name} => ${haste}`).then(r => {
-													message.channel.delete("Finished");
+											let name = `./logs/logs-of-${message.channel.name}.txt`;
+											fs.writeFile(name, log, (err) => {
+												if (err) throw new Error("File doesn't create");
+												save.send(`Logs of ${message.channel.name}`, {files: [name]}).then(r => {
+														fs.unlinkSync(name);
+														message.channel.delete();
 												})
-											}).catch(error => {
-												console.error(error);
 											});
 										})
 								} else
